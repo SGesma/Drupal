@@ -1,0 +1,207 @@
+INSTALL DRUPAL:
+
+créer un dossier drupal (se placer dedans)
+
+commande pour créer un projet avec composer(sur github drupal):
+composer create-project drupal-composer/drupal-project:8.x-dev projectback(nom du projet) --stability dev --no-interaction
+
+se placer dans le projectback
+
+lancer le server(drupal server)
+
+créer une base de donnée
+
+installer et configurer drupal(mettre le nom de la bdd et les identifiants de php)
+
+
+MODULES à installer:
+
+
+drush status (voir toutes les informations sur notre site)
+drush (toutes les commandes de drush)
+drush cr (vider tout les caches de drupal) / drush cc (vide que certains fichiers)
+
+clear (nettoie toute les commandes et efface)
+cd .. (aller en arrière/se sortir d'un dossier)
+chmod 777 default(nom du fichier) avoir des droits
+
+composer require drupal/devel (télécharge debug et info sur les données)
+drush en devel kint -y (installer et valider l'installation)
+
+composer require drupal/examples (télécharge démonstrations de l'utilisation de l'API)
+drush en examples kint -y (installer et valider l'installation)
+
+composer require drupal/masquerade (télécharge changer d'utilisateur sans se déconnecter)
+drush en masquerade kint -y (installer et valider l'installation)
+
+drupal (toutes les commandes de drupal)
+drupal site:mode dev (passer en mode développeur)
+
+
+DANS L'IDE:
+
+dans web / modules (tout les modules qu'on installe)
+
+dossier core: les racines $existing, $type, $theme, $path
+profiles: config qu'on a configuré lors de l'install(minimal/standard/demo...)
+
+dossier theme: dl les thèmes drupal
+
+dossier site / default (nos fichiers CSS, JS, PHP...)
+
+On peut faire des multisite sur drupal (il y aura juste la BDD qui changera)
+
+
+PERMISSION:
+
+soit dans l'interface(config/personnes/rôle et créer)
+
+soit dans le fichier yml
+
+CREER SON MODULE:
+
+dans web/modules/
+créer un dossier custom 
+creer un dossier avec le nom du module 
+creer un fichier yml
+dans le fichier yml 
+( name: Prenium
+type: module
+drescription: "module pour gérer les utilisateurs prenium"
+package: Prenium
+core: 8.x )
+
+creer un fichier prenium.permissions.yml
+dans le fichier:
+('access prenium content':
+  title: 'Accéder au contenu prenium'
+  description: "Permet lacces au contenu prenium")
+
+changer les droits dans l'interface(coché prenium)
+
+créer un nouvel utilisateur et lui appliquer le rôle
+
+
+COMMANDE: alt 2 (naviguer entre les pages firefox)
+
+
+drupal dp (commande drupal)
+
+PERMISSION DANS FICHIER YML // à l'interface(rôle, personnes)
+
+MENU DANS FICHIER YML // à l'interface(structure, ajout de menu)
+
+STRUCTURE DE BLOC // à l'interface(configurer le bloc)
+-> en annotation dans un fichier php(src/plugin/block)
+-> /**
+* Provides a 'Hello' Block.
+*
+* @Block(
+*
+id = "hello_block",
+*
+admin_label = @Translation("Hello block"),
+*
+category = @Translation("Hello World"),
+* )
+*/
+
+
+FAIRE UN THEME/PERSONNALISER:
+
+1 - on fait un hook theme dans le module 
+function prenium_theme($existing, $type, $theme, $path) {
+    return[
+        'prenium_block_template' => [
+            'variables' => [
+                'message_config' => NULL,
+                'message' => NULL,
+            ],
+        ],
+    ];
+}
+
+2 - on le return/on l'appelle dans le controller(booléen)
+   public function suisJePrenium()
+    {
+        $isPrenium = \Drupal::currentUser()->
+            hasPermission('access prenium content');
+
+        return [
+                 '#theme' => 'suis_je_prenium',
+                 '#isprenium' => $isPrenium,
+        ];
+    }
+
+3 - on créer un fichier twig
+{% if isprenium %}
+    <h3 style="color: green">Vous êtes prenium</h3>
+{% else %}
+    <h3 style="color: red">Vous n'êtes pas prenium</h3>
+{% endif %}
+
+
+BOOTSTRAP:
+en commande: composer require drupal\bootstrap
+
+dans l'interface: apparence (installer et définir par défaut)
+
+dans L'IDE: créer un répertoire custom dans theme
+(copier le cdn de bootstrap dedans)
+(renommer tout les fichiers avec le nom de notre thème)
+
+
+Rechercher dans l'Ide(se positionner sur un dossier): CTRL SHIFT F 
+
+  
+LIBRAIRIE:
+1 - on créer une librairie dans le fichier theme.librairies.yml
+css-stuff:
+  css:
+   theme:
+     css/css-stuff.css: {}
+     css/css-stuff-print.css: { media: print }
+     //fonts.googleapis.com/css?family=Abhaya+Libre|Open+Sans: {
+   type: external }
+
+2 - on la définit dans le fichier theme.info.yml 
+libraries:
+  - 'prenium_theme/global-styling'
+
+3 - on créer un fichier css 
+
+// même chose pour le js(on créer un dossier js)
+
+ATTENTION à l'indentation sur les fichiers YML 
+
+
+JAVASCRIPT:
+
+F12 voir la console (on verra le message s'afficher)
+
+
+AJOUTER UN NOUVEAU BLOCK:
+1 -dans le info.yml (ajouter la région)
+ex: 
+regions:
+  content: 'Content'
+  sidebar_first: 'Primary'
+  sidebar_second: 'Secondary'
+  footer: 'Footer'
+  footer_top: 'Footer top'
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+
+2 - copier le fichier page.html.twig dans template(créer un dossier page)
+
+3 - modifier le twig pour rajouter la région
+{% if page.footer_top %}
+    {% block footer_top %}
+        {{ page.footer_top }}
+    {% endblock %}
+{% endif %}
+
+Dans l'interface le block se rajouter dans la structure
+
+COLORATION SYNTAXIQUE SUR IDE: dans files (settings/ files types/PHP ajouter
+*.module et *.theme)
