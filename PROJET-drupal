@@ -1,0 +1,78 @@
+PROJET DRUPAL
+
+- expression de besoin (client)
+
+- cahier des charges / aspects techniques
+
+
+FONCTIONS A IMPLEMENTER
+
+ADMIN/WEBMASTER/
+
+- créer des articles: 
+-> possibilité de modifier leurs apparences (gras, ajout d'image...) 
+-> possibilité de les catégoriser (mot clé...)
+
+- bibliothèque d'images
+
+- accueil avec carrousel de 5 articles:
+-> permission webmaster pour l'administration de l'accueil
+-> afficher les derniers articles publiés par catégorie
+
+- possibilité de recherche selon catégorie (fonctionnalité de recherche):
+-> affichage d'articles par lot de 10
+-> pagination
+
+- formulaire de contact (reccueil d'info sur les visiteurs):
+-> emails envoyés aux visiteurs pour confirmer la demande
+
+UTILISATEURS/ 
+
+- création de compte pour utilisateur (fonctionnalité standard):
+-> changer mdp et email (envoie du mdp si oublié)
+
+- compte utilisateur avec les favoris / suppression d'articles
+
+- avis des visiteurs/commentaires sur les articles:
+-> doit être validé par un admin
+
+MVP (vrai cahier des charges):
+
+- Utilisateurs(CRUD) / backoffice drupal clic
+- Rôles et permissions / backoffice drupal clic
+- Articles (CRUD) / backoffice drupal clic
+- Médiathèques d'images (CRUD) / backoffice drupal clic
+- WYSWIYG / backoffice drupal clic
+- Commentaires (CRUD + approbation) / backoffice drupal clic
+- Page d'accueil
+   . slider
+   . articles récents 
+- Favoris
+- Recherche
+- Formulaire de contact
+
+AGENDA JOUR 1:
+1 - mise en place du thème
+2 - créations des rôles
+3 - configuration WYSIWYG
+4 - gestion des catégories (taxonomy)
+5 - gestion de la médiathèque
+6 - gestion des articles (type de contenue/créer des champs)
+7 - génération/saisie de contenus 
+
+Méthode AGILE
+
+On peut exporter/configurer: drush cex / drush cim
+
+AJOUTER UN BLOC:
+- créer une nouvelle vue
+- pour l'afficher dans mise en page des blocs (positionner le bloc)
+- créer un nouveau style d'affichage (light)
+- l'appliquer dans articles liés (afficher contenu light) / structure vues
+
+
+filtre contextuelle de la vue
+mettre une valeur par défaut dans l'url 
+
+
+Entité vignette et non rendu

@@ -1,0 +1,90 @@
+INSTALLATION DE DRUPAL: 
+
+cd (on se place)
+
+cette commande:
+1 - composer create-project drupal-composer/drupal-project:8.x-dev some-dir --stability dev
+--no-interaction
+
+cd .. (déplacer)
+
+2 - drupal si (install) / créer une base de donnée avant
+
+3 - installer les modules / composer require drupal/devel
+
+drupal site:mode  dev
+
+
+COMMENCER SON PROJET:
+
+1 - créer un module avant les entités
+drupal generate:module
+
+2 - créer une entité 
+drupal generate:entity:content
+
+3 - après chaques créations d'entités faire drupal update:entities
+
+AJOUTER DE NOUVEAUX CHAMPS:
+
+1 - installer le module crée sur l'interface
+
+2 - ajout dans l'interface (dans structure/setting/gérer les champs)
+
+3 - drush cr pour mettre à jour
+
+CREER INTERFACE/SERVICE:
+
+1- créer un dossier service avec deux fichiers(ex: starwars.php et starwarsInterface.php)
+
+2 - interface c'est la structure du service (fichier starwars.php implemente starwarsInterface)
+
+3 - service à définir le fichier yml
+créer un nouveau fichier à la racine du projet 
+(starwars.services.yml)
+services:
+  starwars.service:
+    class: Drupal\starwars\Service\Starwars
+    arguments: []
+
+CREER UN FORMULAIRE:
+
+créer le formulaire avec la commande
+drupal generate:form
+
+- entrée le nom du module
+- nom du form
+- 
+- yes
+- nom du service
+- no
+- yes
+-
+-
+
+dans le fichier form.php:
+
+on rajoute des champs dans la fonction build
+public function buildForm(array $form, FormStateInterface $form_state) {
+$form['id'] = [
+          '#type' => 'number',
+          '#title' => 'Id',
+      ];
+  return $form;
+  }
+
+et on envoie dans la fonction submit:
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    // Display result.
+    foreach ($form_state->getValues() as $key => $value) {
+      drupal_set_message($key . ': ' . $value);
+    }
+      $values = $form_state->getValues();   
+      $id = $values['id']; (on récupère notre nom de champ)
+      $this->starwarsService->addPeople($id); (on rajoute à notre service)
+  }
+
+}
+
+
+
